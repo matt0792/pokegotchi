@@ -8,9 +8,10 @@ Uses pokeapi to dynamically retrieve and load data.
 ## Table of Contents
 
 1. [Built With](#builtWith)
-2. [Getting Started](#gettingStarted)
-3. [Usage](#usage)
-4. [Installation](#installation)
+2. [Planned Features](#roadmap)
+3. [Getting Started](#gettingStarted)
+4. [Usage](#usage)
+5. [Installation](#installation)
 
 ### Built with <a name="builtWith"></a>
 - HTML
@@ -18,6 +19,13 @@ Uses pokeapi to dynamically retrieve and load data.
 - JavaScript
 - Bootstrap 
 - jQuery
+
+### Planned Features <a name="roadmap"></a>
+- Minigames
+- Account creation
+- Trading / social platform 
+- Hunger system 
+- Combat system
 
 ### Getting Started <a name="gettingStarted"></a>
 Page is hosted on GitHub. Load it and jump in! 
