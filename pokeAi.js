@@ -9,6 +9,8 @@ let coinAmount = JSON.parse(sessionStorage.getItem("userCoins")) || 0;
 sessionStorage.setItem("userCoins", JSON.stringify(coinAmount));
 let coinDisplay = document.getElementById("currencyAmount");
 coinDisplay.textContent = coinAmount;
+let pokemonAmount = document.getElementById("pokemonAmount");
+pokemonAmount.textContent = "(" + pArray.length + " pokemon)"
 
 let statArray = [];
 
@@ -27,7 +29,7 @@ document.addEventListener("DOMContentLoaded", function () {
   }
 
   if (pArray.length >= 1) {
-    logElement.classList.remove("hidden")
+    logElement.classList.remove("hidden");
   }
 
   document.getElementById("fileInput").addEventListener("change", readFile);
@@ -92,7 +94,13 @@ function randomAction() {
   let coinAmount = JSON.parse(sessionStorage.getItem("userCoins")) || 0;
   if (coinAmount >= 20) {
     tutArrow.classList.remove("hidden");
-  } 
+  }
+
+  let pArray = JSON.parse(sessionStorage.getItem("userPokemon")) || [];
+
+  if (pArray > 5) {
+    move(chosenPokemon);
+  }
 
   // Choose an action
   let action = Math.floor(Math.random() * 10);
@@ -385,23 +393,23 @@ function collectStarterCoin(coin) {
 function spawnSuperCoin() {
   let chance = Math.floor(Math.random() * 10);
   if (chance > 7) {
-  let x = Math.random() * (window.screen.height - 600) + 70;
-  let y = Math.random() * (window.screen.width - 600) + 300;
+    let x = Math.random() * (window.screen.height - 600) + 70;
+    let y = Math.random() * (window.screen.width - 600) + 300;
 
-  let coinElement = document.createElement("div");
-  coinElement.innerHTML = '<i class="bi bi-cash"></i>';
-  coinElement.classList.add("coin-spawn");
-  coinElement.classList.add("super-coin");
-  coinElement.style.top = `${x}px`;
-  coinElement.style.left = `${y}px`;
-  coinElement.setAttribute("onclick", `collectSuperCoin(this)`);
-  pen.appendChild(coinElement);
-  newEvent("A SUPER COIN appeared!");
-      // Despawn
-      setTimeout(() => {
-        coinElement.remove();
-      }, 2000);
-    }
+    let coinElement = document.createElement("div");
+    coinElement.innerHTML = '<i class="bi bi-cash"></i>';
+    coinElement.classList.add("coin-spawn");
+    coinElement.classList.add("super-coin");
+    coinElement.style.top = `${x}px`;
+    coinElement.style.left = `${y}px`;
+    coinElement.setAttribute("onclick", `collectSuperCoin(this)`);
+    pen.appendChild(coinElement);
+    newEvent("A SUPER COIN appeared!");
+    // Despawn
+    setTimeout(() => {
+      coinElement.remove();
+    }, 2000);
+  }
 }
 
 function collectSuperCoin(coin) {
@@ -455,7 +463,6 @@ function addToLog(message) {
 
 populateLog();
 
-
 let clicks = 0;
 let loadSection = document.getElementById("loadSection");
 
@@ -468,49 +475,53 @@ function showSaveOptions() {
 }
 
 function downloadHelper() {
-    let now = new Date();
-    let id = now.getTime();
-    saveToFile(JSON.parse(sessionStorage.getItem("userPokemon")), id)
+  let now = new Date();
+  let id = now.getTime();
+  saveToFile(JSON.parse(sessionStorage.getItem("userPokemon")), id);
 }
 
 function saveToFile(array, fileName) {
   // Convert the array to JSON
   const jsonString = JSON.stringify(array, null, 2); // Pretty-print for readability
-  
+
   // Create a Blob object
   const blob = new Blob([jsonString], { type: "application/json" });
-  
+
   // Create a link element
   const link = document.createElement("a");
   link.href = URL.createObjectURL(blob);
-  
+
   // Set your custom file name and extension
   link.download = `${fileName}.pok`; // Replace .myext with your preferred extension
-  
+
   // Trigger the download
   link.click();
-  
+
   // Cleanup
   URL.revokeObjectURL(link.href);
 }
 
 function readFile(event) {
   const file = event.target.files[0];
-  
+
   if (!file) return;
-  
+
   const reader = new FileReader();
   reader.onload = function (e) {
-      const fileContents = e.target.result;
-      try {
-          // Parse JSON back into an array
-          let pArray = JSON.parse(sessionStorage.getItem("userPokemon")) || [];
-          const array = JSON.parse(fileContents);
-          combined = array.concat(pArray);
-          sessionStorage.setItem("userPokemon", JSON.stringify(combined));
-      } catch (err) {
-          console.error("Error parsing file:", err);
-      }
+    const fileContents = e.target.result;
+    try {
+      // Parse JSON back into an array
+      let pArray = JSON.parse(sessionStorage.getItem("userPokemon")) || [];
+      let array = JSON.parse(fileContents);
+      let pMoney = array[0];
+      let pPokemon = array.slice(1)
+      combined = pPokemon.concat(pArray);
+      sessionStorage.setItem("userCoins", JSON.stringify(pMoney));
+      sessionStorage.setItem("userPokemon", JSON.stringify(combined));
+    } catch (err) {
+      console.error("Error parsing file:", err);
+    }
   };
   reader.readAsText(file);
+  location.reload();
 }

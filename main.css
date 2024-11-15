@@ -593,13 +593,10 @@ body {
   border-radius: 10px;
 }
 
-.hamburger {
-  margin-left: 20px;
-  font-size: 30px;
+.pokemon-amount {
+  font-family: "Doto", sans-serif;
+  font-weight: bolder;
+  font-size: 20px;
   color: #e20b8c;
-  margin-right: 20px;
-}
-
-.redeem-link {
-  margin-top: 46.5px;
+  text-align: center;
 }/*# sourceMappingURL=main.css.map */
