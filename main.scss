@@ -56,6 +56,7 @@ body {
 
 .name-banner {
   font-weight: bolder;
+  width: 400vw;
   font-size: 400px;
   margin: none;
   color: rgba(250, 250, 250, 0.65);
@@ -64,6 +65,7 @@ body {
 }
 
 .top-banner {
+  text-align: right;
   position: absolute;
   top: -250px;
   right: -100%;
@@ -602,4 +604,8 @@ body {
   font-size: 20px;
   color: #e20b8c;
   text-align: center;
+}
+
+.space-repeat {
+  font-family: "Doto", sans-serif;
 }
