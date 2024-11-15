@@ -28,7 +28,7 @@ Uses pokeapi to dynamically retrieve and load data.
 - Combat system
 
 ### Getting Started <a name="gettingStarted"></a>
-Page is hosted on GitHub. Load it and jump in! 
+Page is hosted on GitHub at https://matt0792.github.io/pokegotchi/.
 
 ### Usage <a name="usage"></a>
 NA
