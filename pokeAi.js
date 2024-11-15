@@ -481,22 +481,22 @@ function downloadHelper() {
 }
 
 function saveToFile(array, coins, fileName) {
+  // Combine array and coins into a single object
+  let data = { coins: coins, array: array };
 
-  let constructArray = array
-  constructArray.unshift(coins);
+  // Convert the data to a JSON string
+  let jsonData = JSON.stringify(data);
 
-  // Convert the array to JSON
-  const jsonString = JSON.stringify(constructArray, null, 2); 
+  // Encrypt the JSON string
+  let encrypted = CryptoJS.AES.encrypt(jsonData, "bweh").toString();
 
-  // Create a Blob object
-  const blob = new Blob([jsonString], { type: "application/json" });
+  // Save the encrypted string as a JSON file
+  const blob = new Blob([encrypted], { type: "application/json" });
 
-  // Create a link element
+  // Create a link element for downloading
   const link = document.createElement("a");
   link.href = URL.createObjectURL(blob);
-
-  // Set your custom file name and extension
-  link.download = `${fileName}.pok`; // Replace .myext with your preferred extension
+  link.download = `${fileName}.pok`;
 
   // Trigger the download
   link.click();
@@ -507,23 +507,32 @@ function saveToFile(array, coins, fileName) {
 
 function readFile(event) {
   const file = event.target.files[0];
-
   if (!file) return;
 
   const reader = new FileReader();
   reader.onload = function (e) {
-    const fileContents = e.target.result;
+    const fileContents = e.target.result; // Read the encrypted string
     try {
-      // Parse JSON back into an array
+      // Decrypt the string
+      let decrypted = CryptoJS.AES.decrypt(fileContents, "bweh");
+      let decryptedString = decrypted.toString(CryptoJS.enc.Utf8); // Convert to UTF-8 string
+
+      // Parse the decrypted JSON string
+      let data = JSON.parse(decryptedString);
+
+      // Extract coins and Pokemon data
+      let pMoney = data.coins;
+      let pPokemon = data.array;
+
+      // Get existing Pokemon data
       let pArray = JSON.parse(sessionStorage.getItem("userPokemon")) || [];
-      let array = JSON.parse(fileContents);
-      let pMoney = array[0];
-      let pPokemon = array.slice(1)
-      combined = pPokemon.concat(pArray);
+
+      // Combine and store
+      let combined = pPokemon.concat(pArray);
       sessionStorage.setItem("userCoins", JSON.stringify(pMoney));
       sessionStorage.setItem("userPokemon", JSON.stringify(combined));
     } catch (err) {
-      console.error("Error parsing file:", err);
+      console.error("Error reading file:", err);
     }
   };
   reader.readAsText(file);
