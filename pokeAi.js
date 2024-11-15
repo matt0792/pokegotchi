@@ -10,7 +10,7 @@ sessionStorage.setItem("userCoins", JSON.stringify(coinAmount));
 let coinDisplay = document.getElementById("currencyAmount");
 coinDisplay.textContent = coinAmount;
 let pokemonAmount = document.getElementById("pokemonAmount");
-pokemonAmount.textContent = "(" + pArray.length + " pokemon)"
+pokemonAmount.textContent = "(" + pArray.length + " pokémon)"
 
 let statArray = [];
 
@@ -477,12 +477,16 @@ function showSaveOptions() {
 function downloadHelper() {
   let now = new Date();
   let id = now.getTime();
-  saveToFile(JSON.parse(sessionStorage.getItem("userPokemon")), id);
+  saveToFile(JSON.parse(sessionStorage.getItem("userPokemon")), JSON.parse(sessionStorage.getItem("userCoins")) , id);
 }
 
-function saveToFile(array, fileName) {
+function saveToFile(array, coins, fileName) {
+
+  let constructArray = array
+  constructArray.unshift(coins);
+
   // Convert the array to JSON
-  const jsonString = JSON.stringify(array, null, 2); // Pretty-print for readability
+  const jsonString = JSON.stringify(constructArray, null, 2); 
 
   // Create a Blob object
   const blob = new Blob([jsonString], { type: "application/json" });
