@@ -605,4 +605,20 @@ body {
 
 .space-repeat {
   font-family: "Doto", sans-serif;
+}
+
+.save-load {
+  font-family: "Doto", sans-serif;
+  font-weight: bolder;
+  font-size: 20px;
+  color: #e20b8c;
+  display: flex;
+  justify-content: center;
+  gap: 25px;
+  margin-top: 20px;
+  cursor: pointer;
+}
+
+.sl-button {
+  margin-right: 10px;
 }/*# sourceMappingURL=main.css.map */

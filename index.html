@@ -51,6 +51,10 @@
         <div class="bottom-content">
           <div class="game-title">Pokédex</div>
           <div class="pokemon-amount" id="pokemonAmount"></div>
+          <div class="save-load">
+            <div class="save" onClick="downloadHelper()"><i class="bi bi-download">      Get save file</i></div>
+            <div class="load"><i class="bi bi-upload">      Load save file</i></div>
+          </div>
           <div class="pokedex" id="pokeDex"></div>
           <div class="dex-desc">
             Collect more pokémon to fill out the Pokédex!
@@ -80,7 +84,10 @@
     <script src="script.js" type="text/javascript"></script>
     <script src="pokeAi.js" type="text/javascript"></script>
     <script src="pokeDex.js" type="text/javascript"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/3.1.2/rollups/aes.js" integrity="sha256-/H4YS+7aYb9kJ5OKhFYPUjSJdrtV6AeyJOtTkw6X72o=" crossorigin="anonymous"></script>
-
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/3.1.2/rollups/aes.js"
+      integrity="sha256-/H4YS+7aYb9kJ5OKhFYPUjSJdrtV6AeyJOtTkw6X72o="
+      crossorigin="anonymous"
+    ></script>
   </body>
 </html>
