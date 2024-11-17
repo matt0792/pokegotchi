@@ -625,3 +625,75 @@ body {
 .sl-button {
   margin-right: 10px;
 }
+
+.full-screen-combat {
+  background: linear-gradient(45deg, #e20b8c, #f84b00);
+  height: 100vh;
+  width: 100vw;
+}
+
+.combat-card {
+  margin-top: 20px;
+  margin-bottom: 20px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+.combat-card:hover {
+  transform: translateY(-10px) rotate(-1deg);
+  background-color: rgb(222, 222, 222) !important;
+}
+
+.pokemon-select {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding-top: 50px;
+}
+
+.battle-pokedex {
+  width: 80vw;
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 40px;
+}
+
+.pokemon-select-title {
+  font-family: "Doto", sans-serif;
+  font-weight: bolder;
+  font-size: 50px;
+  color: whitesmoke;
+  margin-bottom: 30px;
+}
+
+.choose-animation {
+  animation: chooseAnimation 1s ease forwards;
+}
+
+@keyframes chooseAnimation {
+  0% {
+    transform: translateY(0) scale(1) rotate(-1deg);
+  }
+  33% {
+    transform: translateY(15px);
+  }
+  100% {
+    transform: translateY(-200vh) scale(5) rotate(0deg);
+  }
+}
+
+.fade-out {
+  animation: fadeOut 0.8s linear forwards;
+}
+
+@keyframes fadeOut {
+  0% {
+    opacity: 1;
+  }
+  90% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+  }
+}

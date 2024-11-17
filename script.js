@@ -47,6 +47,7 @@ function fetchPokemon() {
     .then((response) => response.json())
     .then((data) => {
       pokemonArray = data.results;
+      sessionStorage.setItem("pokeArray", JSON.stringify(pokemonArray));
       // Call getRandomPokemon after array is populated
       getRandomPokemon();
     });
