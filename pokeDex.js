@@ -7,10 +7,13 @@ for (let i = 0; i < userPokemon.length; i++) {
   .then((data) => {
     let pokemonSprite = data.sprites.front_default;
 
+    let hpStat = data.stats.find((stat) => stat.stat.name === "hp").base_stat;
+
     // Create object for tracking states
     let pokemonData = {
       name: currentPokemon.toUpperCase(),
       number: data.id,
+      hp: hpStat,
       types: data.types
       .map((typeInfo) => typeInfo.type.name)
       .join(", "),
@@ -34,10 +37,14 @@ function addCard(sprite, data) {
     let typeElement = document.createElement("div");
     typeElement.classList.add("pokedex-type");
     typeElement.textContent = data.types;
+    let hpElement = document.createElement("div");
+    hpElement.classList.add("pokedex-type");
+    hpElement.textContent = data.hp + " HP";
     pokeDex.appendChild(dexCard);
     dexCard.appendChild(numberElement);
     dexCard.appendChild(imgElement);
     dexCard.appendChild(nameElement);
     dexCard.appendChild(typeElement);
+    dexCard.appendChild(hpElement);
 }
 

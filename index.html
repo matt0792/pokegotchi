@@ -29,7 +29,6 @@
       <div class="generic-container">
         <div class="top-header">
           <div class="title" onClick="showSaveOptions()">Pokégotchi</div>
-          <a href="combat.html">Combat (debug)</a>
           <div class="draw-link">
             <div class="tut-arrow hidden" id="tutArrow">
               <i class="bi bi-caret-right-fill"></i>
@@ -53,8 +52,10 @@
           <div class="game-title">Pokédex</div>
           <div class="pokemon-amount" id="pokemonAmount"></div>
           <div class="save-load">
-            <div class="save" onClick="downloadHelper()"><i class="bi bi-download">      Get save file</i></div>
-            <div class="load"><i class="bi bi-upload">      Load save file</i></div>
+            <div class="save" onClick="downloadHelper()">
+              <i class="bi bi-download"> Get save file</i>
+            </div>
+            <div class="load"><i class="bi bi-upload"> Load save file</i></div>
           </div>
           <div class="pokedex" id="pokeDex"></div>
           <div class="dex-desc">

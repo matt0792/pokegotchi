@@ -6,6 +6,7 @@ let pArray = JSON.parse(sessionStorage.getItem("userPokemon")) || [];
 let milestones = JSON.parse(sessionStorage.getItem("userPokemon")) || [];
 
 let coinAmount = JSON.parse(sessionStorage.getItem("userCoins")) || 0;
+let isBattleValid = JSON.parse(sessionStorage.getItem("battleValid")) || false;
 sessionStorage.setItem("userCoins", JSON.stringify(coinAmount));
 let coinDisplay = document.getElementById("currencyAmount");
 coinDisplay.textContent = coinAmount;
@@ -107,7 +108,7 @@ function randomAction() {
   }
 
   // Choose an action
-  let action = Math.floor(Math.random() * 10);
+  let action = Math.floor(Math.random() * 11);
 
   switch (action) {
     case 0:
@@ -139,6 +140,9 @@ function randomAction() {
       break;
     case 8:
       spawnSuperCoin();
+      break;
+    case 9:
+      spawnBattle();
       break;
   }
   changeRate();
@@ -3916,12 +3920,16 @@ function downloadHelper() {
     "zoology",
   ];
   // Filter arrays to exclude entries with spaces
-  let singleWordAdjectives = adjectives.filter(word => !word.includes(' '));
-  let singleWordNouns = nouns.filter(word => !word.includes(' '));
+  let singleWordAdjectives = adjectives.filter((word) => !word.includes(" "));
+  let singleWordNouns = nouns.filter((word) => !word.includes(" "));
 
   // Pick random entries from filtered arrays
-  let adjective = singleWordAdjectives[Math.floor(Math.random() * singleWordAdjectives.length)];
-  let noun = singleWordNouns[Math.floor(Math.random() * singleWordNouns.length)];
+  let adjective =
+    singleWordAdjectives[
+      Math.floor(Math.random() * singleWordAdjectives.length)
+    ];
+  let noun =
+    singleWordNouns[Math.floor(Math.random() * singleWordNouns.length)];
   let rNumber = Math.floor(Math.random() * 100);
   let id = `${adjective}-${noun}${rNumber}`;
 
@@ -3988,4 +3996,39 @@ function readFile(event) {
   };
   reader.readAsText(file);
   location.reload();
+}
+
+function spawnBattle() {
+  let spawnChance = Math.floor(Math.random() * 10);
+
+  if (spawnChance > 5) {
+    // Random position for spawn
+    let x = Math.random() * (window.screen.height - 600) + 70;
+    let y = Math.random() * (window.screen.width - 600) + 300;
+
+    // Create a link element
+    let battleElement = document.createElement("a");
+    battleElement.textContent = "VS";
+    battleElement.classList.add("battle-spawn");
+    battleElement.classList.add("link-strip");
+    battleElement.setAttribute("onclick", "setBattle()");
+    battleElement.style.top = `${x}px`;
+    battleElement.style.left = `${y}px`;
+    battleElement.href = "combat.html";
+
+    // Add it to the pen
+    pen.appendChild(battleElement);
+
+    newEvent("A BATTLE EVENT appeared!");
+
+    // Despawn after 6 seconds
+    setTimeout(() => {
+      battleElement.remove();
+    }, 5000);
+  }
+}
+
+function setBattle() {
+  isBattleValid = true;
+  sessionStorage.setItem("battleValid", JSON.stringify(isBattleValid));
 }

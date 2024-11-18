@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Pokégotchi</title>
+    <title>Battle</title>
     <link rel="stylesheet" href="main.css" type="text/css" />
     <link
       rel="stylesheet"
@@ -26,10 +26,33 @@
   </head>
   <body>
     <div class="full-screen-combat">
-        <div class="pokemon-select" id="pokemonSelect">
-            <div class="pokemon-select-title">Choose a Pokémon for battle!</div>
-            <div class="battle-pokedex" id="pokeDex"></div>
+      <div class="button-circle">
+        <a href="./index.html" class="link"
+          ><i class="bi bi-arrow-left-short"></i
+        ></a>
+      </div>
+      <div class="pokemon-select" id="pokemonSelect">
+        <div class="enemy-select-display" id="enemySelectDisplay">
+          <div class="enemy-title">Challenger:</div>
+          <div class="enemy-sprite" id="enemySprite"></div>
+          <div class="enemy-name" id="enemyName"></div>
+          <div class="enemy-stats" id="enemyStats"></div>
+          <div class="enemy-hp" id="enemyHp"></div>
         </div>
+        <div class="pokemon-select-title">Choose a Pokémon for battle!</div>
+        <div class="battle-pokedex" id="pokeDex"></div>
+      </div>
+      <div class="battle-intro hidden" id="battleIntroScene">
+        <div class="enemy-pokemon battle-pokemon" id="enemyPokemon"></div>
+        <div class="battle-intro-text" id="introText">VS</div>
+        <div id="battleEvents" class="hidden">
+          <div class="battle-event-container">
+            <div class="battle-events" id="battleEvents"></div>
+          </div>
+        </div>
+        <div class="player-pokemon battle-pokemon" id="playerPokemon"></div>
+      </div>
+      <div class="load-desc hidden" id="loadDesc"></div>
     </div>
 
     <script

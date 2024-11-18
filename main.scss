@@ -8,7 +8,7 @@ body {
 }
 
 .full-screen {
-  height: 100vh;
+  height: 100%;
   width: 100vw;
 }
 
@@ -276,7 +276,7 @@ body {
 }
 
 .bounce {
-  animation: bounce 0.4s ease-out infinite;
+  animation: bounce 0.4s ease-out forwards !important;
 }
 
 @keyframes bounce {
@@ -486,7 +486,7 @@ body {
   margin-top: 15px;
   font-family: "Doto", sans-serif;
   font-weight: bolder;
-  font-size: 20px;
+  font-size: 30px;
   color: #e20b8c;
   text-wrap: wrap;
   text-align: center;
@@ -628,7 +628,7 @@ body {
 
 .full-screen-combat {
   background: linear-gradient(45deg, #e20b8c, #f84b00);
-  height: 100vh;
+  height: 100%;
   width: 100vw;
 }
 
@@ -637,6 +637,7 @@ body {
   margin-bottom: 20px;
   cursor: pointer;
   transition: all 0.2s ease;
+  min-width: 250px;
 }
 .combat-card:hover {
   transform: translateY(-10px) rotate(-1deg);
@@ -656,6 +657,7 @@ body {
   justify-content: center;
   flex-wrap: wrap;
   gap: 40px;
+  margin-bottom: 50px;
 }
 
 .pokemon-select-title {
@@ -696,4 +698,175 @@ body {
   100% {
     opacity: 0;
   }
+}
+
+.battle-intro {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  height: 100vh;
+}
+
+.battle-intro-text {
+  color: whitesmoke;
+  font-family: "Pokemon Solid", sans-serif;
+  font-size: 120px;
+  align-self: center;
+  justify-self: center;
+}
+
+.enemy-select-display {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 40px;
+}
+
+.enemy-title {
+  font-family: "Doto", sans-serif;
+  font-weight: bold;
+  font-size: 70px;
+  color: whitesmoke;
+}
+
+.enemy-name {
+  font-family: "Doto", sans-serif;
+  font-weight: bolder;
+  font-size: 30px;
+  color: whitesmoke;
+  text-wrap: wrap;
+  text-align: center;
+}
+
+.enemy-stats {
+  font-family: "Doto", sans-serif;
+  font-weight: bolder;
+  font-size: 16px;
+  color: whitesmoke;
+  text-wrap: wrap;
+  text-align: center;
+}
+
+.enemy-hp {
+  font-family: "Doto", sans-serif;
+  font-weight: bolder;
+  font-size: 16px;
+  color: whitesmoke;
+  text-wrap: wrap;
+  text-align: center;
+}
+
+.battle-pokemon {
+  position: absolute;
+  transform: scale(2);
+}
+
+.enemy-pokemon {
+  top: 15vh;
+  right: 15%;
+}
+
+.player-pokemon {
+  bottom: 15vh;
+  left: 15%;
+}
+
+.top-pokemon-slide {
+  animation: pokeSlideInTop 2s ease forwards !important;
+}
+
+@keyframes pokeSlideInTop {
+  0% {
+    right: 150%;
+  }
+  100% {
+    right: 15%;
+  }
+}
+
+.bottom-pokemon-slide {
+  animation: pokeSlideInBottom 2s ease forwards !important;
+}
+
+@keyframes pokeSlideInBottom {
+  0% {
+    left: 150%;
+  }
+  100% {
+    left: 15%;
+  }
+}
+
+.battle-events {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 20vh !important;
+}
+
+.battle-events-container {
+  background-color: whitesmoke !important;
+  width: 100vw;
+  height: 50px;
+}
+
+.battle-events {
+  color: whitesmoke;
+  font-family: "Doto", sans-serif;
+  font-weight: bolder;
+  font-size: 40px;
+}
+
+.event-update {
+  animation: eventFlash 0.3s ease forwards;
+}
+
+@keyframes eventFlash {
+  0% {
+    background-color: whitesmoke;
+  }
+  100% {
+    background-color: none;
+  }
+}
+
+.combat-bounce {
+  animation: combatBounce 0.4s ease-out forwards !important;
+}
+
+@keyframes combatBounce {
+  0% {
+    transform: translateY(0) scale(2);
+  }
+  50% {
+    transform: translateY(-40px) scale(2.2);
+  }
+  100% {
+    transform: translateY(0) scale(2);
+  }
+}
+
+.hp-bar-container {
+  width: 100%;
+  margin-top: 10px;
+  border: 1px solid whitesmoke;
+  opacity: 0.9;
+  margin-bottom: 10px;
+}
+
+.hp-bar {
+  height: 10px;
+  background-color: whitesmoke;
+  width: 100%;
+  transition: width 0.3s ease;
+  opacity: 0.7;
+}
+
+.battle-spawn {
+  font-family: "Pokemon Solid", sans-serif;
+  position: absolute;
+  color: whitesmoke;
+  font-size: 50px;
+  animation: coinBounce 1s ease-out infinite;
+  cursor: pointer;
 }
