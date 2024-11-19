@@ -41,7 +41,7 @@ for (let i = 0; i < userPokemon.length; i++) {
         name: currentPokemon.toUpperCase(),
         number: data.id,
         hp: hpStat,
-        winCoins: Math.max(0, Math.floor((110 - hpStat) / 2)),
+        winCoins: Math.max(0, (Math.floor((110 - hpStat) / 2) + 8)),
         types: data.types.map((typeInfo) => typeInfo.type.name).join(", "),
       };
       addCard(pokemonSprite, pokemonData);
