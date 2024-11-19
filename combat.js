@@ -1,10 +1,8 @@
 let isBattleValid = JSON.parse(sessionStorage.getItem("battleValid")) || false;
-console.log(isBattleValid); 
 
 if (isBattleValid === false) {
-  window.location.replace = "index.html";
+  window.location.replace("index.html");
 }
-
 
 let pokeDex = document.getElementById("pokeDex");
 
@@ -26,6 +24,8 @@ let enemyStatsDisplay = document.getElementById("enemyStats");
 let enemyHpDisplay = document.getElementById("enemyHp");
 let introText = document.getElementById("introText");
 let battleEvents = document.getElementById("battleEvents");
+let coinClaimElement = document.getElementById("coinClaim");
+let coinButtonElement = document.getElementById("coinButton");
 
 for (let i = 0; i < userPokemon.length; i++) {
   let currentPokemon = userPokemon[i];
@@ -114,7 +114,6 @@ function battleIntro(chosenPokemon) {
   battleIntroScene.classList.add("active");
 
   fetchPlayerPokemonSprite(chosenPokemon);
-  showEnemySprite();
 
   enemyPokemon.classList.add("top-pokemon-slide");
   playerPokemon.classList.add("bottom-pokemon-slide");
@@ -160,8 +159,13 @@ function fetchPlayerPokemonSprite(pokemonName) {
       hpBar.style.width = "100%"; // Start at full width
       hpBarContainer.appendChild(hpBar);
 
-      playerPokemon.appendChild(hpBarContainer);
+      let pokemonName = document.createElement("div");
+      pokemonName.classList.add("enemy-stats");
+      pokemonName.innerText = playerPokemonData.name;
+
       playerPokemon.appendChild(playerPokeImage);
+      playerPokemon.appendChild(hpBarContainer);
+      playerPokemon.appendChild(pokemonName);
 
       playerPokemonData.hpBar = hpBar; // Save for dynamic updates
     })
@@ -189,52 +193,51 @@ function fetchEnemyPokemonData() {
           .join(", "),
       };
 
-      enemyPokemon.innerHTML = ""; // Clear any existing content
-      enemySprite = pokemonSprite;
-
-      // Create and append the enemy Pokémon image
-      let enemyPokeImage = document.createElement("img");
-      enemyPokeImage.src = pokemonSprite;
-      enemyPokeImage.classList.add("battle-pokemon-image");
-
-      // Create HP bar container
-      let hpBarContainer = document.createElement("div");
-      hpBarContainer.classList.add("hp-bar-container");
-
-      let hpBar = document.createElement("div");
-      hpBar.classList.add("hp-bar");
-      hpBar.style.width = "100%"; // Start at full width
-      hpBarContainer.appendChild(hpBar);
-
-      // Append image and HP bar to the enemy display
-      enemyPokemon.appendChild(enemyPokeImage);
-      enemyPokemon.appendChild(hpBarContainer);
-
-      // Attach hpBar to enemyPokemonData for updates
-      enemyPokemonData.hpBar = hpBar;
-
-      displayEnemyAtSelect(enemyPokemonData, enemyPokeImage);
+      displayEnemyAtSelect(enemyPokemonData, pokemonSprite);
+      displayEnemy(enemyPokemonData, pokemonSprite);
+      isBattleValid = false;
+      sessionStorage.setItem("battleValid", JSON.stringify(isBattleValid));
     })
     .catch((error) =>
       console.error("Error fetching enemy Pokémon sprite:", error)
     );
 }
 
+function displayEnemy(data, pokemonSprite) {
+  // Create and append the enemy Pokémon image
+  let enemyPokeImage = document.createElement("img");
+  enemyPokeImage.src = pokemonSprite;
+  enemyPokeImage.classList.add("battle-pokemon-image");
+
+  // Create HP bar container
+  let hpBarContainer = document.createElement("div");
+  hpBarContainer.classList.add("hp-bar-container");
+
+  let hpBar = document.createElement("div");
+  hpBar.classList.add("hp-bar");
+  hpBar.style.width = "100%";
+  hpBarContainer.appendChild(hpBar);
+
+  let pokemonName = document.createElement("div");
+  pokemonName.classList.add("enemy-stats");
+  pokemonName.innerText = data.name;
+
+  // Append image and HP bar to the enemy display
+  enemyPokemon.appendChild(enemyPokeImage);
+  enemyPokemon.appendChild(hpBarContainer);
+  enemyPokemon.appendChild(pokemonName);
+
+  // Attach hpBar to enemyPokemonData for updates
+  enemyPokemonData.hpBar = hpBar;
+}
+
 function displayEnemyAtSelect(data, sprite) {
-  enemySpriteDisplay.appendChild(sprite);
+  let enemyPokeImage = document.createElement("img");
+  enemyPokeImage.src = sprite;
+  enemySpriteDisplay.appendChild(enemyPokeImage);
   enemyNameDisplay.textContent = data.name;
   enemyStatsDisplay.textContent = data.types;
   enemyHpDisplay.textContent = data.hp + " HP";
-}
-
-function showEnemySprite() {
-  // Create an image element for the player's Pokémon
-  let enemyPokeImage = document.createElement("img");
-  enemyPokeImage.src = enemySprite;
-  enemyPokeImage.classList.add("battle-pokemon-image");
-
-  // Clear previous Pokémon image and append new one
-  enemyPokemon.appendChild(enemyPokeImage);
 }
 
 function battleCommence() {
@@ -249,31 +252,41 @@ function battleCommence() {
   );
 }
 
-let playerTurn = false;
+let playerTurn = true;
 
 function battleActions(playerName, playerHp, enemyName, enemyHp) {
   if (playerHp <= 0) {
     battleEvents.classList.add("event-update");
-    battleEvents.textContent = `${playerName} runs out of HP, battle lost! You lost 25 coins`;
-    sessionStorage.setItem("userCoins", JSON.stringify(Math.max(0, Math.floor(coinAmount - 25))));
+    battleEvents.textContent = `${playerName} runs out of HP, battle lost! You lost 10 coins!`;
+    playerPokemon.classList.add("lose-anim");
+    sessionStorage.setItem(
+      "userCoins",
+      JSON.stringify(Math.max(0, Math.floor(coinAmount - 10)))
+    );
   } else if (enemyHp <= 0) {
+    enemyPokemon.classList.add("lose-anim");
     battleEvents.classList.add("event-update");
     battleEvents.textContent = `${enemyName} runs out of HP, battle won! You got ${winCoins} coins!`;
     sessionStorage.setItem("userCoins", JSON.stringify(coinAmount + winCoins));
+    coinClaimElement.classList.remove("hidden");
   } else {
     randomAttack(playerName, playerHp, enemyName, enemyHp);
   }
 
   if (!playerTurn) {
     playerPokemon.classList.add("combat-bounce");
+    enemyPokemon.classList.add("combat-shake");
     setTimeout(() => {
       playerPokemon.classList.remove("combat-bounce");
-    }, 1000);
+      enemyPokemon.classList.remove("combat-shake");
+    }, 400);
   } else {
     enemyPokemon.classList.add("combat-bounce");
+    playerPokemon.classList.add("combat-shake");
     setTimeout(() => {
       enemyPokemon.classList.remove("combat-bounce");
-    }, 1000);
+      playerPokemon.classList.remove("combat-shake");
+    }, 400);
   }
 }
 
@@ -322,7 +335,7 @@ function attack(playerName, playerHp, enemyName, enemyHp) {
   }
 
   // Check if dodge occurs
-  if (dodgeChance > 7) {
+  if (dodgeChance > 8) {
     battleEvents.textContent = `${defender} evades ${attacker}'s attack!`;
   } else {
     // Apply damage if no dodge
@@ -335,8 +348,35 @@ function attack(playerName, playerHp, enemyName, enemyHp) {
   // Update the respective HP data
   if (playerTurn) {
     enemyPokemonData.hp = targetHp;
+    enemyHp -= damage;
   } else {
     playerPokemonData.hp = targetHp;
+    playerHp -= damage;
+  }
+
+  if (playerHp <= 0) {
+    battleEvents.classList.add("event-update");
+    battleEvents.textContent = `${playerName} runs out of HP, battle lost! You lost 10 coins!`;
+    playerPokemon.classList.add("lose-anim");
+    sessionStorage.setItem(
+      "userCoins",
+      JSON.stringify(Math.max(0, Math.floor(coinAmount - 10)))
+    );
+
+    setTimeout(() => {
+      battleIntroScene.classList.add("fade-out");
+    }, 900);
+    setTimeout(() => {
+      window.location.replace("index.html");
+    }, 2300);
+    return
+  } else if (enemyHp <= 0) {
+    enemyPokemon.classList.add("lose-anim");
+    battleEvents.classList.add("event-update");
+    battleEvents.textContent = `${enemyName} runs out of HP, battle won! You got ${winCoins} coins!`;
+    sessionStorage.setItem("userCoins", JSON.stringify(coinAmount + winCoins));
+    coinClaimElement.classList.remove("hidden");
+    return
   }
 
   setTimeout(() => {
@@ -350,3 +390,10 @@ function attack(playerName, playerHp, enemyName, enemyHp) {
 }
 fetchPokemon();
 fetchEnemyPokemonData();
+
+function coinClaim() {
+  battleIntroScene.classList.add("fade-out");
+  setTimeout(() => {
+    window.location.replace("index.html");
+  }, 1500);
+}

@@ -10,6 +10,11 @@ let typeField = document.getElementById("typeField");
 let openButton = document.getElementById("openButton");
 let loader = document.getElementById("loader");
 let loadDesc = document.getElementById("loadDesc");
+let fullScreen = document.getElementById("fullScreen")
+
+document.addEventListener("DOMContentLoaded", function () {
+  fullScreen.classList.add("fade-in");
+});
 
 let descriptions = [
   "Checking the Pokédex… please wait!",
@@ -70,9 +75,11 @@ function getPokemonData(pokemonName) {
   fetch(`https://pokeapi.co/api/v2/pokemon/${pokemonName}`)
     .then((response) => response.json())
     .then((data) => {
+      let hpStat = data.stats.find((stat) => stat.stat.name === "hp").base_stat;
       pokemonDetails = {
         name: data.name.toUpperCase(),
         stats: data.stats,
+        hp: hpStat,
         sprite: data.sprites.front_default,
         types: data.types
           .map((typeInfo) => typeInfo.type.name.toUpperCase())
@@ -92,6 +99,7 @@ let revealName = document.getElementById("revealName");
 let revealStats = document.getElementById("revealStats");
 let revealDetails = document.getElementById("revealDetails");
 let currencyDisplay = document.getElementById("openCurrency");
+let revealHp = document.getElementById("revealHp");
 
 function drawHelper() {
   let coinAmount = JSON.parse(sessionStorage.getItem("userCoins")) || 0;
@@ -121,6 +129,7 @@ function pokemonDraw(pokemonDetails) {
   // Display data
   revealName.textContent = pokemonDetails.name;
   revealStats.textContent = pokemonDetails.types;
+  revealHp.textContent = pokemonDetails.hp + " HP";
 }
 
 function triggerSlideIn() {

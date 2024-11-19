@@ -802,19 +802,17 @@ body {
   justify-content: center;
   align-items: center;
   height: 20vh !important;
+  color: whitesmoke;
+  font-family: "Doto", sans-serif;
+  font-weight: bolder;
+  font-size: 40px;
+  text-align: center;
 }
 
 .battle-events-container {
   background-color: whitesmoke !important;
   width: 100vw;
   height: 50px;
-}
-
-.battle-events {
-  color: whitesmoke;
-  font-family: "Doto", sans-serif;
-  font-weight: bolder;
-  font-size: 40px;
 }
 
 .event-update {
@@ -848,10 +846,9 @@ body {
 
 .hp-bar-container {
   width: 100%;
-  margin-top: 10px;
   border: 1px solid whitesmoke;
   opacity: 0.9;
-  margin-bottom: 10px;
+  margin-bottom: 4px;
 }
 
 .hp-bar {
@@ -869,4 +866,71 @@ body {
   font-size: 50px;
   animation: coinBounce 1s ease-out infinite;
   cursor: pointer;
+}
+
+.combat-shake {
+  animation: combatShake 0.3s ease infinite;
+}
+
+@keyframes combatShake {
+  0% {
+    transform: translateX(0) scale(2);
+  }
+  50% {
+    transform: translateX(-10px) scale(2);
+  }
+  100% {
+    transform: translateX(0) scale(2);
+  }
+}
+
+.coin-claim {
+  display: flex;
+  justify-content: center;
+}
+
+.claim-button {
+  cursor: pointer;
+  color: #e20b8c;
+  font-family: "Doto", sans-serif;
+  font-weight: bolder;
+  font-size: 40px;
+  text-align: center;
+  width: 400px;
+  background-color: whitesmoke !important;
+  border-radius: 20px;
+}
+
+.lose-anim {
+  animation: loseAnim 2s ease forwards;
+  transition: opacity 1s ease;
+  opacity: 0;
+  transform: rotate(7deg);
+}
+
+@keyframes loseAnim {
+  0% {
+    transform: translateY(0) scale(2);
+    opacity: 1;
+  }
+  60% {
+    transform: translateY(-20px) scale(2) rotate(5deg);
+  }
+  100% {
+    transform: translateY(-15px) scale(2) rotate(10deg);
+    opacity: 0;
+  }
+}
+
+.fade-in {
+  animation: fadeIn 0.7s ease forwards;
+}
+
+@keyframes fadeIn {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
 }
